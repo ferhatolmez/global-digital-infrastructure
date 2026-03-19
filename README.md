@@ -1,63 +1,78 @@
-# Global Dijital Altyapı (GDA) Platformu 🚀
+<div align="center">
+  <h1>🚀 GDA (Global Dijital Altyapı) - Enterprise SaaS Platform</h1>
+  <p>
+    <strong>Domain, Hosting, Web Sitesi ve E-Ticaret altyapılarının tek merkezden yönetildiği, yüksek erişilebilirliğe (High Availability) sahip, çoklu kiracı (Multi-tenant) SaaS platformu.</strong>
+  </p>
 
-GDA, dijital varlıkların (Domain, Hosting, Web Sitesi, E-Ticaret) tek bir merkezden yönetilmesini sağlayan, çoklu kiracı (multi-tenant) mimarisine sahip modern bir SaaS platformudur. 
+  <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white" alt="Alpine.js" />
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+</div>
 
-Bu proje; son kullanıcılar için pürüzsüz bir dijital hizmet deneyimi sunarken, arka planda gelişmiş bir orkestrasyon motoru ile API sağlayıcılarını, sunucu altyapılarını ve provisioning süreçlerini tam otomatik hale getirir.
+<br>
 
-## 🏗️ Mimari ve Teknoloji Yığını
+## 📌 Proje Vizyonu ve Mimari Yaklaşım
+Bu proje, dijital varlık yönetimini otomatize etmek amacıyla **Servis Odaklı Mimari (Service-Based Architecture)** prensipleriyle geliştirilmiştir. Sadece bir arayüz sunmakla kalmaz; arka planda API sağlayıcılarını yöneten bir **Provisioning (Tedarik) Orkestrasyon Motoru** barındırır. 
 
-Proje, yüksek erişilebilirlik (high availability) ve temiz kod (clean code) prensipleri göz önünde bulundurularak tasarlanmıştır.
+Geliştirme sürecinde *Solid Prensipleri*, *Eager Loading (N+1 problemini önleme)* ve *Asset Optimizasyonu* gibi modern yazılım mühendisliği standartları merkeze alınmıştır.
 
-* **Backend:** Laravel (PHP 8.2+)
-* **Frontend:** Tailwind CSS v4, Alpine.js, Blade Templates
-* **Asset Management:** Vite
-* **Mimari Standartlar:** Multi-tenant altyapı, Service-based architecture
-* **Güvenlik:** Rol bazlı erişim kontrolü (RBAC), Güvenli Oturum Yönetimi
+---
 
-## ✨ Temel Modüller ve Özellikler
+## 🏗️ Temel Sistem Özellikleri
 
-Sistem, üç ana omurga üzerinde çalışır:
+### ⚙️ 1. Gelişmiş Orkestrasyon ve Fallback Motoru (Süper Admin)
+Sistem, dışa bağımlılıkları (External APIs) güvenli bir şekilde yönetmek üzere tasarlanmıştır:
+* **Akıllı Provider Yönetimi:** Domain, Hosting ve Cloud servisleri için birincil (Primary) ve ikincil (Fallback) API sağlayıcıları tanımlanabilir. Birincil sağlayıcıda hata (timeout/500) oluştuğunda sistem otomatik olarak ikincil sağlayıcıya geçer.
+* **Otomatize Provisioning:** Ödeme onaylandığı anda; `Domain Kaydı -> Hosting Açılışı -> DB Oluşturma -> SSL Kurulumu` işlemleri asenkron ve sıralı olarak tetiklenir.
+* **Merkezi Log ve Monitoring:** Tüm API istekleri, webhook'lar ve hata (retry) döngüleri gerçek zamanlı izlenebilir.
 
-### 1. Süper Admin Paneli (Altyapı ve Orkestrasyon)
-Tüm harici API sağlayıcılarını ve provisioning süreçlerini yöneten kontrol merkezidir.
-* **Entegrasyon Merkezi:** Domain, Hosting, Cloud ve Ödeme API'lerinin tek merkezden yönetimi.
-* **Fallback Mekanizması:** Birincil sağlayıcı arızalandığında otomatik olarak ikincil sağlayıcıya geçiş.
-* **Provisioning Motoru:** Sipariş sonrası işlemleri sırayla işleyen arka plan orkestrasyon sistemi.
-* **Merkezi Loglama:** Hata, webhook ve sistem durumu loglarının detaylı takibi.
+### 👥 2. Rol Bazlı Dinamik Yönlendirme ve Müşteri Paneli
+Kullanıcı deneyimi (UX) sıfır gecikme üzerine kurgulanmıştır:
+* **Tek Kapı (Single Entry):** Auth sistemi, giriş yapan kullanıcının rolünü (`is_admin`) analiz eder ve yetkisine göre Süper Admin veya Müşteri paneline (Dashboard) güvenli bir şekilde yönlendirir.
+* **Self-Servis Hizmet Yönetimi:** Müşteriler; DNS yönetimi, paket yükseltme, tek tıkla website kurulumu (Site Builder) ve fatura takibi işlemlerini aracı olmadan yapabilir.
+* **Güvenlik:** JWT tabanlı doğrulama, rate-limiting ve null-safe (`?->`) veri okuma mimarisi.
 
-### 2. Müşteri Paneli (Client Dashboard)
-Kullanıcının satın aldığı tüm hizmetleri yönetmesini sağlayan, mobil uyumlu, hızlı ve modern arayüz.
-* **Hizmet Yönetimi:** Domain DNS ayarları, yenileme işlemleri ve hosting kaynak takibi.
-* **Website & E-Ticaret Sihirbazı:** Sürükle-bırak mantığıyla site kurma ve mağaza yönetimi.
-* **Finans ve Destek:** Fatura yönetimi, sipariş takibi ve entegre ticket (destek) sistemi.
+### ⚡ 3. Performans ve Frontend Optimizasyonu
+* **Tailwind CSS v4 & Vite:** Development aşamasındaki ağır CDN bağımlılığı tamamen kaldırılarak, Tailwind sınıfları Vite üzerinden derlenmiş, anında yüklenen (milisaniyelik) saf bir `app.css` mimarisine geçilmiştir.
+* **Alpine.js Entegrasyonu:** JQuery veya ağır framework'ler yerine, HTML DOM üzerine yerleştirilmiş hafif state yönetimi (Alpine.js) ile Drawer (Sidebar) ve Modal'lar optimize edilmiştir.
 
-### 3. Public Web Sitesi (Global Satış Motoru)
-Platformun global satışını gerçekleştiren, SEO ve hız odaklı ana sayfa yapısı.
-* **Dinamik Fiyatlandırma:** Bölgeye ve kura göre anlık fiyat senkronizasyonu.
-* **Hızlı Arama:** Dönüşüm odaklı, anında tepki veren domain sorgulama arayüzü.
+---
 
-## ⚙️ Kurulum ve Geliştirme Ortamı
+## 💻 Teknoloji Yığını (Tech Stack)
 
-Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
+| Kategori | Teknoloji | Neden Kullanıldı? |
+| :--- | :--- | :--- |
+| **Backend** | `Laravel (PHP 8.2+)` | Güçlü ORM (Eloquent), Routing, Queue mimarisi ve güvenlik altyapısı için. |
+| **Frontend** | `Tailwind CSS v4`, `Blade` | Hızlı ve responsive UI geliştirme, derlenmiş mikro CSS çıktısı için. |
+| **Reactivity** | `Alpine.js` | JSDOM manipülasyonları ve component state yönetimi (hafif ağırlık) için. |
+| **Build Tool** | `Vite` | Işık hızında Hot Module Replacement (HMR) ve asset bundling için. |
+| **Database** | `SQLite` / `MySQL` | Hızlı geliştirme ortamı ve canlı yayın uyumluluğu için. |
+
+---
+
+## 🚀 Yerel Kurulum (Geliştirme Ortamı)
+
+Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları sırasıyla uygulayabilirsiniz:
 
 ```bash
 # 1. Repoyu klonlayın
 git clone [https://github.com/KULLANICI_ADIN/global-dijital-altyapi.git](https://github.com/KULLANICI_ADIN/global-dijital-altyapi.git)
 cd global-dijital-altyapi
 
-# 2. PHP bağımlılıklarını yükleyin
+# 2. PHP bağımlılıklarını (Vendor) yükleyin
 composer install
 
 # 3. Ortam değişkenlerini ayarlayın
 cp .env.example .env
 php artisan key:generate
 
-# 4. Veritabanını oluşturun ve migration'ları çalıştırın
+# 4. Veritabanı tablolarını oluşturun
 php artisan migrate
 
-# 5. Frontend bağımlılıklarını yükleyin ve Vite'ı çalıştırın
+# 5. Frontend bağımlılıklarını (Node_modules) yükleyin ve Vite ile derleyin
 npm install
 npm run build
 
-# 6. Geliştirme sunucusunu başlatın
+# 6. Sunucuyu başlatın
 php artisan serve
