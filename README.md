@@ -2,7 +2,11 @@
 [![Laravel](https://img.shields.io/badge/Laravel_13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com) 
 [![Livewire](https://img.shields.io/badge/Livewire_3-4e56a6?style=for-the-badge&logo=laravel&logoColor=white)](https://livewire.laravel.com) 
 [![Tailwind](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com) 
-[![Reverb](https://img.shields.io/badge/Laravel_Reverb-000000?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/docs/reverb)
+[![Reverb](https://img.shields.io/badge/Laravel_Reverb-000000?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/docs/reverb)<br>
+[![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white)](https://alpinejs.dev)
+[![Pest PHP](https://img.shields.io/badge/Pest_PHP-F42F4B?style=for-the-badge&logo=php&logoColor=white)](https://pestphp.com)
+[![OpenAI](https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 
 Profesyonel, yüksek performanslı ve modern web standartlarına (SPA, AI, WebSockets) uygun alan adı tescil, hosting satışı ve müşteri hizmetleri yönetim platformu. 
 Modern glassmorphic müşteri arayüzü ile güçlü yönetim paneli entegre çalışır.
