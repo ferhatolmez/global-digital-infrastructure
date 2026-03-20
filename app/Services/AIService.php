@@ -14,7 +14,7 @@ class AIService
     public function suggestDomains(string $keyword): array
     {
         // Gerçek API Anahtarı tanımlandıysa OpenAI kullan
-        if (!empty(config('openai.api_key'))) {
+        if (!empty(env('OPENAI_API_KEY'))) {
             try {
                 $response = OpenAI::chat()->create([
                     'model' => 'gpt-4o-mini',

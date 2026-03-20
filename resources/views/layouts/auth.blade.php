@@ -10,23 +10,17 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 font-sans antialiased flex items-center justify-center min-h-screen">
-
-    <!-- Animated background elements -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-    </div>
+<body class="bg-black font-sans antialiased flex items-center justify-center min-h-screen text-zinc-100">
 
     <div class="relative w-full max-w-md p-6">
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-lg shadow-indigo-500/30 mb-4">
-                <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-zinc-950 border border-zinc-800 rounded-2xl mb-4 shadow-sm">
+                <svg class="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
             </div>
-            <h1 class="text-3xl font-extrabold text-white">Global Altyapı</h1>
-            <p class="text-gray-400 mt-2">Dijital varlıklarınızı yönetin</p>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">Global Altyapı</h1>
+            <p class="text-zinc-400 mt-2">Dijital varlıklarınızı yönetin</p>
         </div>
 
         @yield('content')
