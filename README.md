@@ -1,78 +1,100 @@
-<div align="center">
-  <h1>🚀 GDA (Global Dijital Altyapı) - Enterprise SaaS Platform</h1>
-  <p>
-    <strong>Domain, Hosting, Web Sitesi ve E-Ticaret altyapılarının tek merkezden yönetildiği, yüksek erişilebilirliğe (High Availability) sahip, çoklu kiracı (Multi-tenant) SaaS platformu.</strong>
-  </p>
+# 🌐 Global Dijital Altyapı - Domain & Hosting Yönetim Platformu
 
-  <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white" alt="Alpine.js" />
-  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-</div>
+Global Dijital Altyapı, modern web standartlarında geliştirilmiş, yüksek performanslı ve kullanıcı dostu bir alan adı (domain) tescil, hosting satışı ve müşteri hizmetleri yönetim platformudur. En güncel Laravel ekosistemi kullanılarak tasarlanmış olup, hem müşterilere hem de sistem yöneticilerine "Premium" bir deneyim sunmayı hedefler.
 
-<br>
+## ✨ Öne Çıkan Özellikler
 
-## 📌 Proje Vizyonu ve Mimari Yaklaşım
-Bu proje, dijital varlık yönetimini otomatize etmek amacıyla **Servis Odaklı Mimari (Service-Based Architecture)** prensipleriyle geliştirilmiştir. Sadece bir arayüz sunmakla kalmaz; arka planda API sağlayıcılarını yöneten bir **Provisioning (Tedarik) Orkestrasyon Motoru** barındırır. 
-
-Geliştirme sürecinde *Solid Prensipleri*, *Eager Loading (N+1 problemini önleme)* ve *Asset Optimizasyonu* gibi modern yazılım mühendisliği standartları merkeze alınmıştır.
+- **🔍 AI Destekli Akıllı Domain Arama:** Klasik alan adı sorgulamalarının ötesine geçerek, **OpenAI** entegrasyonu sayesinde aranan kelimeye ve sektöre özel, katma değeri yüksek premium domain önerileri (örn. `.ai`, `.io`, `.tech`) sunar.
+- **⚡ Livewire SPA Deneyimi:** Domain sorgulama ekranı **Livewire 3** altyapısıyla çalışır. Sayfa yenilenmesine gerek kalmadan iskelet yükleme (Skeleton Loading) animasyonlarıyla saniyeler içinde anlık arama sonuçları listelenir.
+- **🔔 Gerçek Zamanlı (Real-Time) Bildirimler:** **Laravel Reverb (Native WebSockets)** kullanılarak, arka plandaki işlemler (domain kayıt onayı vb.) tamamlandığında ekranın köşesinde anında dinamik Toast bildirimleri belirir.
+- **🎨 Glassmorphism & Koyu Tema (Dark Mode):** Tasarım dili **Tailwind CSS v4** ile harmanlanmış olup Apple tarzı (Glass) arayüzler içerir. Alpine.js destekli, kullanıcı tercihini tarayıcıda saklayan tam donanımlı Koyu Tema özelliği bulunmaktadır.
+- **🚀 Arka Plan Görevleri (Queues):** Uzun süren API yanıtları, domain tescili ve sipariş süreçleri Database Queues kullanılarak arka plana alınır ve kullanıcı asla bekletilmez.
+- **⚙️ Gelişmiş Admin Paneli:** Şık bir yönetim paneli ile kullanıcıları, siparişleri, destek biletlerini (tickets) ve dinamik olarak domain uzantı fiyatlarını yönetme imkanı sunar.
 
 ---
 
-## 🏗️ Temel Sistem Özellikleri
+## 🛠 Kullanılan Teknolojiler (Tech Stack)
 
-### ⚙️ 1. Gelişmiş Orkestrasyon ve Fallback Motoru (Süper Admin)
-Sistem, dışa bağımlılıkları (External APIs) güvenli bir şekilde yönetmek üzere tasarlanmıştır:
-* **Akıllı Provider Yönetimi:** Domain, Hosting ve Cloud servisleri için birincil (Primary) ve ikincil (Fallback) API sağlayıcıları tanımlanabilir. Birincil sağlayıcıda hata (timeout/500) oluştuğunda sistem otomatik olarak ikincil sağlayıcıya geçer.
-* **Otomatize Provisioning:** Ödeme onaylandığı anda; `Domain Kaydı -> Hosting Açılışı -> DB Oluşturma -> SSL Kurulumu` işlemleri asenkron ve sıralı olarak tetiklenir.
-* **Merkezi Log ve Monitoring:** Tüm API istekleri, webhook'lar ve hata (retry) döngüleri gerçek zamanlı izlenebilir.
-
-### 👥 2. Rol Bazlı Dinamik Yönlendirme ve Müşteri Paneli
-Kullanıcı deneyimi (UX) sıfır gecikme üzerine kurgulanmıştır:
-* **Tek Kapı (Single Entry):** Auth sistemi, giriş yapan kullanıcının rolünü (`is_admin`) analiz eder ve yetkisine göre Süper Admin veya Müşteri paneline (Dashboard) güvenli bir şekilde yönlendirir.
-* **Self-Servis Hizmet Yönetimi:** Müşteriler; DNS yönetimi, paket yükseltme, tek tıkla website kurulumu (Site Builder) ve fatura takibi işlemlerini aracı olmadan yapabilir.
-* **Güvenlik:** JWT tabanlı doğrulama, rate-limiting ve null-safe (`?->`) veri okuma mimarisi.
-
-### ⚡ 3. Performans ve Frontend Optimizasyonu
-* **Tailwind CSS v4 & Vite:** Development aşamasındaki ağır CDN bağımlılığı tamamen kaldırılarak, Tailwind sınıfları Vite üzerinden derlenmiş, anında yüklenen (milisaniyelik) saf bir `app.css` mimarisine geçilmiştir.
-* **Alpine.js Entegrasyonu:** JQuery veya ağır framework'ler yerine, HTML DOM üzerine yerleştirilmiş hafif state yönetimi (Alpine.js) ile Drawer (Sidebar) ve Modal'lar optimize edilmiştir.
+*   **Backend:** Laravel 13 Framework (PHP 8.3 / 8.4 uyumlu), SQLite / MySQL
+*   **Frontend:** Tailwind CSS v4, Alpine.js, Blade Component Mimarisi
+*   **Etkileşim (Reaktif Modüller):** Laravel Livewire 3
+*   **WebSockets:** Laravel Reverb & Laravel Echo
+*   **Test Altyapısı:** Pest PHP Testing Framework & DatabaseTransactions
 
 ---
 
-## 💻 Teknoloji Yığını (Tech Stack)
+## 🚀 Kurulum Rehberi
 
-| Kategori | Teknoloji | Neden Kullanıldı? |
-| :--- | :--- | :--- |
-| **Backend** | `Laravel (PHP 8.2+)` | Güçlü ORM (Eloquent), Routing, Queue mimarisi ve güvenlik altyapısı için. |
-| **Frontend** | `Tailwind CSS v4`, `Blade` | Hızlı ve responsive UI geliştirme, derlenmiş mikro CSS çıktısı için. |
-| **Reactivity** | `Alpine.js` | JSDOM manipülasyonları ve component state yönetimi (hafif ağırlık) için. |
-| **Build Tool** | `Vite` | Işık hızında Hot Module Replacement (HMR) ve asset bundling için. |
-| **Database** | `SQLite` / `MySQL` | Hızlı geliştirme ortamı ve canlı yayın uyumluluğu için. |
+Projeyi kendi sunucunuzda veya yerel ortamınızda (Localhost) ayağa kaldırmak için aşağıdaki adımları sırasıyla uygulayın.
 
----
+### 1. Sistem Gereksinimleri
+- PHP 8.3 veya 8.4
+- Node.js & NPM
+- Composer
 
-## 🚀 Yerel Kurulum (Geliştirme Ortamı)
-
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları sırasıyla uygulayabilirsiniz:
-
+### 2. Projenin İndirilmesi ve Paketlerin Yüklenmesi
 ```bash
-# 1. Repoyu klonlayın
-git clone [https://github.com/KULLANICI_ADIN/global-dijital-altyapi.git](https://github.com/KULLANICI_ADIN/global-dijital-altyapi.git)
+git clone https://github.com/kullaniciadi/global-dijital-altyapi.git
 cd global-dijital-altyapi
 
-# 2. PHP bağımlılıklarını (Vendor) yükleyin
+# PHP ve Node bağımlılıklarını kurun
 composer install
+npm install
+```
 
-# 3. Ortam değişkenlerini ayarlayın
+### 3. Ortam Konfigürasyonu
+Projenin ana dizinindeki `.env.example` dosyasının adını `.env` olarak değiştirin ve uygulama anahtarını üretin:
+```bash
 cp .env.example .env
 php artisan key:generate
+```
 
-# 4. Veritabanı tablolarını oluşturun
-php artisan migrate
+### 4. Veritabanı ve Örnek Verilerin (Seed) Oluşturulması
+```bash
+php artisan migrate --seed
+```
+*Bu komut ile veritabanı tabloları kurulacak ve örnek yetkili admin hesapları ile sahte veriler (mock data) yüklenecektir.*
 
-# 5. Frontend bağımlılıklarını (Node_modules) yükleyin ve Vite ile derleyin
-npm install
-npm run build
+### 5. Yapay Zeka (AI) Kurulumu
+Orijinal yapay zeka domain önerilerinin çalışması için `.env` dosyanıza kendi OpenAI anahtarınızı tanımlayın:
+```env
+OPENAI_API_KEY=sk-sizin-openai-api-anahtariniz
+```
+*(Eğer anahtar girilmezse sistem hata vermez, tamamen güvenli bir algoritmik simülasyon/hesaplama ile örnek domainler üretmeye devam eder.)*
 
-# 6. Sunucuyu başlatın
+---
+
+## 💻 Uygulamayı Çalıştırma
+
+Projenin tam kapasiteyle tüm modern özelliklerini (WebSockets, Queues, ve Vite derleyicisi) kullanabilmesi için ortamınızda **3 farklı terminal sekmesi** açarak aşağıdaki komutları çalıştırmanız gerekir:
+
+1. **Ana Laravel Sunucusu (Backend):**
+```bash
 php artisan serve
+```
+
+2. **Tailwind ve Frontend Derleyicisi (Vite):**
+```bash
+npm run dev
+```
+
+3. **Gerçek Zamanlı Bildirimler (Laravel Reverb):**
+```bash
+php artisan reverb:start
+```
+
+*(Opsiyonel)* Eğer sepet işlemlerinde gecikmeli (asenkron) kuyrukları test edecekseniz 4. bir terminalde şu komutu çalıştırabilirsiniz:
+```bash
+php artisan queue:work
+```
+
+---
+
+## 📝 Testleri Çalıştırma
+Sistemdeki güvenlik ve iş mantığı testleri **Pest PHP** kullanılarak kodlanmıştır. Canlı veritabanınızı bozmadan (`DatabaseTransactions` mekanizması ile) testleri çalıştırmak için:
+```bash
+php artisan test
+```
+
+***
+*Bu proje, yüksek trafikli modern bir hosting otomasyon firmasının ihtiyaçları göz önünde bulundurularak "Yenilikçi, Hızlı ve Premium" mottosuyla geliştirilmiştir.*

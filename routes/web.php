@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 // Controller Tanımlamaları
 use App\Http\Controllers\Admin\UserController as AdminUserController;
@@ -25,13 +24,26 @@ use App\Http\Controllers\Client\ServiceController;
 use App\Http\Controllers\Client\DomainManagementController;
 use App\Http\Controllers\Client\TicketController;
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\WebhookController;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Auth::routes();
+// Laravel varsayılan guest middleware yönlendirmelerinin döngüye girmemesi için:
+Route::redirect('/home', '/client/dashboard');
+
+// Auth Routes (laravel/ui yerine manuel)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::prefix('client')->name('client.')->middleware(['auth'])->group(function () {
     

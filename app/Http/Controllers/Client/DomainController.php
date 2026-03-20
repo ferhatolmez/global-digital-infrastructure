@@ -24,29 +24,7 @@ class DomainController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('domain');
-        $results = null;
-
-        if ($query) {
-            $domainName = explode('.', $query)[0];
-            $extensions = DomainExtension::where('is_active', true)->get();
-            $results = [];
-
-            foreach ($extensions as $ext) {
-                // Şimdilik rastgele uygunluk durumu (Simülasyon)
-                $isAvailable = rand(1, 10) > 3; 
-
-                $results[] = (object)[
-                    'full_domain'  => $domainName . $ext->extension,
-                    'extension'    => $ext->extension,
-                    'is_available' => $isAvailable,
-                    'price'        => $ext->register_price,
-                    'ext_id'       => $ext->id
-                ];
-            }
-        }
-
-        return view('client.domains.search', compact('results', 'query'));
+        return view('client.domains.search');
     }
 
     /**

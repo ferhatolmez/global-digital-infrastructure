@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" x-data="{ 
+        darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+        mobileMenuOpen: false
+    }" 
+    x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light'))" 
+    :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
@@ -9,14 +14,49 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+
     <style>
         [x-cloak] {
             display: none !important;
         }
     </style>
+    @livewireStyles
 </head>
 
-<body class="bg-gray-50 flex h-screen overflow-hidden font-sans" x-data="{ mobileMenuOpen: false }">
+<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden font-sans transition-colors duration-200">
+
+    <!-- Real-time Echo Notification Toast -->
+    <div x-data="{
+        show: false,
+        message: '',
+        init() {
+            setTimeout(() => {
+                if (window.Echo) {
+                    window.Echo.channel('notifications')
+                        .listen('TicketCreated', (e) => {
+                            this.message = e.message;
+                            this.show = true;
+                            setTimeout(() => this.show = false, 5000);
+                        });
+                }
+            }, 1500);
+        }
+    }">
+        <div x-show="show" x-transition.duration.300ms class="fixed bottom-6 right-6 z-50 p-4 bg-indigo-600 text-white font-medium rounded-xl shadow-2xl flex items-center space-x-4 transform transition-all cursor-pointer" @click="show = false">
+            <svg class="h-6 w-6 text-indigo-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <div>
+                <p class="text-xs text-indigo-200 uppercase tracking-widest font-bold">Yeni Bildirim</p>
+                <p x-text="message" class="text-sm mt-0.5"></p>
+            </div>
+            <button class="ml-auto text-indigo-300 hover:text-white" @click.stop="show = false">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+    </div>
 
     <div x-show="mobileMenuOpen" x-cloak @click="mobileMenuOpen = false" class="fixed inset-0 z-40 bg-black/50 md:hidden"></div>
 
@@ -92,16 +132,25 @@
 
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <header class="h-16 bg-white shadow-sm border-b border-gray-200 flex items-center justify-between px-4 md:px-6 z-10">
+        <header class="h-16 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-6 z-10 transition-colors duration-200">
             <div class="flex items-center">
-                <button @click="mobileMenuOpen = true" class="md:hidden mr-4 text-gray-500 hover:text-gray-900 focus:outline-none">
+                <button @click="mobileMenuOpen = true" class="md:hidden mr-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
-                <h2 class="hidden sm:block text-xl font-bold text-gray-800">Hoş Geldiniz, {{ Auth::user()?->name ?? 'Misafir' }} 👋</h2>
+                <h2 class="hidden sm:block text-xl font-bold text-gray-800 dark:text-gray-100">Hoş Geldiniz, {{ Auth::user()?->name ?? 'Misafir' }} 👋</h2>
             </div>
 
             <div class="flex items-center space-x-2 md:space-x-4">
-                <a href="{{ route('client.cart.index') }}" class="relative p-2 text-gray-500 hover:text-indigo-600 transition bg-gray-50 hover:bg-indigo-50 rounded-full">
+                <button @click="darkMode = !darkMode" class="p-2 text-gray-500 hover:text-indigo-600 transition bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-amber-400 hover:bg-indigo-50 rounded-full focus:outline-none">
+                    <svg x-show="!darkMode" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg x-show="darkMode" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+
+                <a href="{{ route('client.cart.index') }}" class="relative p-2 text-gray-500 hover:text-indigo-600 dark:text-gray-300 dark:bg-gray-800 dark:hover:text-indigo-400 transition bg-gray-50 hover:bg-indigo-50 rounded-full">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -120,12 +169,13 @@
             </div>
         </header>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 md:p-8">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 md:p-8 transition-colors duration-200">
             @yield('content')
         </main>
 
     </div>
 
+    @livewireScripts
 </body>
 
 </html>

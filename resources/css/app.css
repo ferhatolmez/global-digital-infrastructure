@@ -1,2 +1,7 @@
 @import "tailwindcss";
-@source "../views";
+
+@theme {
+    --font-sans: "Inter", sans-serif;
+}
+
+@custom-variant dark (&:is(.dark *));

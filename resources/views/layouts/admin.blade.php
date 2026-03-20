@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" x-data="{ 
+        darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+        mobileMenuOpen: false
+    }" 
+    x-init="$watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light'))" 
+    :class="{ 'dark': darkMode }">
 
 <head>
     <meta charset="UTF-8">
@@ -9,14 +14,18 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
+
     <style>
         [x-cloak] {
             display: none !important;
         }
     </style>
+    @livewireStyles
 </head>
 
-<body class="bg-gray-100 flex h-screen overflow-hidden font-sans" x-data="{ mobileMenuOpen: false }">
+<body class="bg-gray-100 dark:bg-gray-900 flex h-screen overflow-hidden font-sans transition-colors duration-200">
 
     <div x-show="mobileMenuOpen" x-cloak @click="mobileMenuOpen = false" class="fixed inset-0 z-40 bg-black/50 md:hidden"></div>
 
@@ -92,19 +101,18 @@
     </aside>
 
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header class="h-16 bg-white shadow-sm border-b border-gray-200 flex items-center justify-between px-6 z-10">
-            
+        <header class="h-16 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-6 z-10 transition-colors duration-200">
             <div class="flex items-center">
-                <button @click="mobileMenuOpen = true" class="md:hidden mr-4 text-gray-500 hover:text-gray-900 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                <button @click="mobileMenuOpen = true" class="md:hidden mr-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
-                <span class="bg-red-100 text-red-800 text-xs font-extrabold px-3 py-1 rounded-full border border-red-200 uppercase tracking-widest hidden sm:block">
-                    Yönetici Modu
-                </span>
-            </div>
-
+                <div class="relative w-64 hidden sm:block">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </span>
+                    <input type="text" class="w-full h-10 pl-10 pr-4 text-sm bg-gray-100 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 border-transparent rounded-lg focus:outline-none focus:bg-white dark:focus:bg-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors" placeholder="Hızlı Arama...">
+                </div>
+            </div>        
             <div class="flex items-center space-x-4">
                 <a href="{{ route('client.dashboard') }}" target="_blank" class="text-sm font-bold text-indigo-600 hover:text-indigo-800 items-center hidden sm:flex">
                     Müşteri Paneline Git
@@ -113,18 +121,30 @@
                     </svg>
                 </a>
                 <div class="border-l border-gray-200 h-6 mx-2 hidden sm:block"></div>
-                <div class="flex items-center">
-                    <div class="h-9 w-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
-                        {{ strtoupper(substr(Auth::user()?->name ?? 'A', 0, 1)) }}
+                <button @click="darkMode = !darkMode" class="p-2 mr-2 text-gray-500 hover:text-indigo-600 transition bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-amber-400 hover:bg-indigo-50 rounded-full focus:outline-none">
+                    <svg x-show="!darkMode" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg x-show="darkMode" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+
+                <div class="flex items-center border-l dark:border-gray-700 border-gray-200 pl-4">
+                    <div class="h-9 w-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
+                        A
                     </div>
+                    <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300 hidden md:block">Yönetici</span>
                 </div>
             </div>
         </header>
 
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-8">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-4 md:p-6 transition-colors duration-200">
             @yield('content')
         </main>
     </div>
 
+    @livewireScripts
 </body>
+
 </html>

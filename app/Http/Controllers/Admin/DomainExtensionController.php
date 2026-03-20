@@ -65,9 +65,4 @@ class DomainExtensionController extends Controller
 
         return redirect()->route('admin.domain-extensions.index')->with('success', 'Domain uzantısı başarıyla eklendi.');
     }
-
-    public function provider()
-    {
-        return $this->belongsTo(Provider::class);
-    }
 }

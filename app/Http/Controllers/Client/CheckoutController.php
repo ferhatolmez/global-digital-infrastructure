@@ -69,13 +69,20 @@ class CheckoutController extends Controller
         // 3. ARKAPLAN GÖREVİNİ (JOB) BAŞLAT
         \App\Jobs\ProcessOrderProvisioning::dispatch($order);
 
-        // 4. Sipariş tamamlandı, sepeti boşalt
-        Session::forget('cart');
+        // Sipariş başarılı, sepeti boşalt
+        session()->forget('cart');
+        
+        // Uzun sürecek API çağrıları için Database Queue çalıştır (Özellik 6)
+        // Her domain için bir kuyruk job'ı gönder
+        if (isset($cart['domains'])) {
+            foreach ($cart['domains'] as $domain) {
+                dispatch(new \App\Jobs\ProcessDomainRegistration($domain['full_domain']));
+            }
+        }
 
-        // Başarılı sayfasına yönlendir
-        return redirect()->route('client.checkout.success', $order->id);
+        return redirect()->route('client.checkout.success', ['order' => $order->id])
+            ->with('success', 'Ödemeniz başarıyla alındı ve siparişiniz oluşturuldu.');
     }
-
     /**
      * Sipariş başarılı sayfasını gösterir.
      */

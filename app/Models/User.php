@@ -30,17 +30,6 @@ class User extends Authenticatable
         'tax_number',
         'address',
         'city',
-        'country',
-    ];
-
-    /**
-        'phone',
-        'company_name',
-        'tax_office',
-        'tax_number',
-        'address',
-        'city',
-        'country',
     ];
 
     /**
