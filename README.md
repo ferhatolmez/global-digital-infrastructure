@@ -1,8 +1,8 @@
 # 🌐 Global Dijital Altyapı — Yeni Nesil Domain & Hosting Yönetim Platformu
-![Laravel](https://img.shields.io/badge/Laravel_13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white) 
-![Livewire](https://img.shields.io/badge/Livewire_3-4e56a6?style=for-the-badge&logo=laravel&logoColor=white) 
-![Tailwind](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) 
-![Reverb](https://img.shields.io/badge/Laravel_Reverb-000000?style=for-the-badge&logo=laravel&logoColor=white)
+[![Laravel](https://img.shields.io/badge/Laravel_13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com) 
+[![Livewire](https://img.shields.io/badge/Livewire_3-4e56a6?style=for-the-badge&logo=laravel&logoColor=white)](https://livewire.laravel.com) 
+[![Tailwind](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com) 
+[![Reverb](https://img.shields.io/badge/Laravel_Reverb-000000?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/docs/reverb)
 
 Profesyonel, yüksek performanslı ve modern web standartlarına (SPA, AI, WebSockets) uygun alan adı tescil, hosting satışı ve müşteri hizmetleri yönetim platformu. 
 Modern glassmorphic müşteri arayüzü ile güçlü yönetim paneli entegre çalışır.
