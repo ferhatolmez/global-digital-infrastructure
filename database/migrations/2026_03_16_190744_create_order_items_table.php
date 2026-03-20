@@ -13,13 +13,9 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
             $table->string('product_type'); // 'domain', 'hosting' vb.
             $table->string('product_name'); // Örn: 'ornek-domain.com'
+            $table->string('period')->default('1 Yıl');
             $table->decimal('price', 10, 2);
             $table->json('details')->nullable(); // Uzantı ID'si, yıllar vb.
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->string('item_type'); // 'domain' veya 'hosting'
-            $table->string('name'); // Ornek.com veya Pro Paket
-            $table->decimal('price', 10, 2);
-            $table->string('period'); // 1 Yıl, 1 Ay vb.
             $table->timestamps();
         });
     }
